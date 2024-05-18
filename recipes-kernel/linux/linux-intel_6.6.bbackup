@@ -1,0 +1,59 @@
+inherit externalsrc
+#inherit externalgitsrc
+
+require recipes-kernel/linux/linux-yocto.inc
+require recipes-kernel/linux/meta-intel-compat-kernel.inc
+
+#FILESEXTRAPATHS:prepend := "${THISDIR}/linux-intel:"
+
+#PV = "${LINUX_VERSION}+git${SRCREV}"
+PV = "${LINUX_VERSION}"
+
+KMETA = "kernel-meta"
+KCONF_BSP_AUDIT_LEVEL = "0"
+
+
+KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
+
+POKY_ROOT="${@os.path.abspath(os.path.join("${TOPDIR}", os.pardir))}"
+STAGING_KERNEL_DIR = "${POKY_ROOT}/sources/work-shared/intel/linux-intel-lts"
+EXTERNALSRC = "${STAGING_KERNEL_DIR}"
+
+FILESEXTRAPATHS:append := "${POKY_ROOT}/sources/meta-intel/recipes-kernel/linux/${PN}:"
+FILESEXTRAPATHS:append := "${POKY_ROOT}/sources/meta-intel/conf/machine:"
+FILESEXTRAPATHS:append := "${POKY_ROOT}/sources/meta-intel/conf/machine/include:"
+
+SRC_URI:append = " \
+           file://0001-vt-conmakehash-improve-reproducibility.patch \
+           file://0001-lib-build_OID_registry-fix-reproducibility-issues.patch \
+           file://fix-perf-reproducibility.patch \
+           file://0001-menuconfig-mconf-cfg-Allow-specification-of-ncurses-.patch \
+           file://0002-mconf-fix-output-of-cflags-and-libraries.patch \
+	  "
+SRC_URI:append = "file://nr_cpus_config.cfg"
+
+LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+
+DEPENDS += "elfutils-native openssl-native util-linux-native"
+
+LINUX_VERSION_EXTENSION ??= "-intel-pk-${LINUX_KERNEL_TYPE}"
+
+COMPATIBLE_MACHINE ?= "(intel-corei7-64)"
+
+#LINUX_VERSION = "6.6.30"
+#SRCREV_machine = "lts-v6.6.30-linux-240508T063812Z"
+#SRCREV_meta = "7fa1cff55e56fa36009a67fb0ea6445e84928b34"
+
+LINUX_VERSION ?= "6.6.25"
+SRCREV_machine ?= "lts-v6.6.25-linux-240415T215440Z"
+SRCREV_meta ?= "c3d1322fb6ff68cdcf4d7a3c1140d81bfdc1320a"
+
+# Functionality flags
+KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc \
+                            features/security/security.scc \
+                            features/iommu/iommu.scc"
+
+UPSTREAM_CHECK_GITTAGREGEX = "^lts-(?P<pver>v6.6.(\d+)-linux-(\d+)T(\d+)Z)$"
+
+
+

@@ -1,0 +1,26 @@
+From 24489c67f2a7a78918b8536d636e883a3cda6999 Mon Sep 17 00:00:00 2001
+From: Andrei Mironenko <andrei.mironenko@gmail.com>
+Date: Fri, 17 May 2024 00:06:20 +0100
+Subject: [PATCH] calibrate: Add printk example
+
+---
+ init/calibrate.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/init/calibrate.c b/init/calibrate.c
+index f3831272f113..7158ed956ee1 100644
+--- a/init/calibrate.c
++++ b/init/calibrate.c
+@@ -278,6 +278,12 @@ void calibrate_delay(void)
+ 	static bool printed;
+ 	int this_cpu = smp_processor_id();
+ 
++	printk("*************************************\n");
++    printk("*                                   *\n");
++    printk("*        HELLO YOCTO KERNEL         *\n");
++    printk("*                                   *\n");
++    printk("*************************************\n");
++
+ 	if (per_cpu(cpu_loops_per_jiffy, this_cpu)) {
+ 		lpj = per_cpu(cpu_loops_per_jiffy, this_cpu);
+ 		if (!printed)
