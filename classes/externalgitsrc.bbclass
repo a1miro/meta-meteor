@@ -44,5 +44,5 @@ def get_externalsrc_gitrev(d, part):
       return githash
 
     if part == "pv":
-      return tag if not commit else str("%s+git%s+%s" % (tag,commit,githash))
+      return tag if not commit else str("%s+%s+%s" % (tag,commit,githash))
 

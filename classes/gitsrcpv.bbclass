@@ -19,7 +19,7 @@ def get_gitrev(d, part):
     gitrev=""
     is_tag_exist = True 
 
-    srcdir = d.expand(d.getVar("WORKDIR")).join("/git")
+    srcdir = d.expand(d.getVar("EXTERNALSRC"))
 
     try:
         gitrev = subprocess.check_output(f"git --git-dir {srcdir}/.git describe HEAD", shell=True).strip().decode("utf-8")
