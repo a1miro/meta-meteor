@@ -6,11 +6,14 @@ inherit cmake
 inherit externalsrc
 inherit gitsrcpv 
 
-DEPENDS = "gnu-efi gnu-efi-native"
-
-#SRC_URI = "git@github.com:a1miro/car-benchmark.git;protocol=ssh;branch=master"
 POKYROOT="${@os.path.abspath(os.path.join("${TOPDIR}", os.pardir))}"
-EXTERNALSRC = "${POKYROOT}/build/workspace/sources/car-benchmark"
+EXTERNALSRC = "${POKYROOT}/build/workspace/sources/matrixmul"
 OECMAKE_ARGS = "-DINCLUDE_DIRECTORIES=${RECIPE_SYSROOT}/usr/include -DLIBRARY_DIRECTORIES=${RECIPE_SYSROOT}/usr/lib "
 
 PV = "${GITSRCPV}"
+
+# Adding matrixmul to the list of packages
+#PACKAGES =+ "${PN}"
+FILES:${PN} = "/usr/local/bin/matrixmul"
+#FILES:${PN} = "${localbindir}/matrixmul"
+
