@@ -12,8 +12,10 @@ OECMAKE_ARGS = "-DINCLUDE_DIRECTORIES=${RECIPE_SYSROOT}/usr/include -DLIBRARY_DI
 
 PV = "${GITSRCPV}"
 
+RDEPENDS_${PN} += " tbb"
+DEPENDS += " tbb"
+
 # Adding matrixmul to the list of packages
 #PACKAGES =+ "${PN}"
-FILES:${PN} = "/usr/local/bin/matrixmul"
-#FILES:${PN} = "${localbindir}/matrixmul"
+FILES:${PN} += " /usr/local/bin"
 
